@@ -1,0 +1,205 @@
+<html>
+<head>
+$(if refresh-timeout)
+<meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+$(endif)
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<title>Time Communication Zone - Status</title>
+
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+  html,body{height:100%;width:100%;overflow:hidden;background:#020412;color:#fff;}
+
+  canvas#network{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:radial-gradient(circle at center,#040720,#000);
+    z-index:0;
+  }
+
+  .main{
+    position:relative;
+    z-index:5;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+  }
+
+  .wrap{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:20px;
+    padding:2.5rem 3rem;
+    text-align:center;
+    width:90%;
+    max-width:420px;
+    box-shadow:0 0 40px rgba(0,255,255,0.25);
+    backdrop-filter:blur(15px);
+    animation:fadeIn 1.5s ease;
+  }
+
+  @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+  .brand-title{
+    font-size:1.6rem;
+    font-weight:700;
+    color:#00ffff;
+    text-shadow:0 0 8px #00ffff,0 0 16px #0080ff,0 0 30px #00ffff;
+    margin-bottom:1.2rem;
+    letter-spacing:1px;
+  }
+
+  h1{
+    font-size:1.3rem;
+    color:#00ffff;
+    text-shadow:0 0 10px #00ffff;
+    margin-bottom:1rem;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:1rem 0;
+  }
+
+  td{
+    padding:8px 5px;
+    border-bottom:1px solid rgba(255,255,255,0.1);
+    font-size:0.9rem;
+    text-align:left;
+  }
+
+  td:first-child{color:#aaa;}
+  td:last-child{color:#fff;text-align:right;}
+
+  a{
+    color:#00ffff;
+    text-decoration:none;
+    transition:0.3s;
+  }
+  a:hover{
+    color:#fff;
+    text-shadow:0 0 8px #00ffff;
+  }
+
+  input[type=submit]{
+    background:transparent;
+    border:2px solid #00ffff;
+    color:#00ffff;
+    font-weight:600;
+    padding:8px 20px;
+    border-radius:30px;
+    cursor:pointer;
+    transition:0.3s;
+    margin-top:10px;
+  }
+
+  input[type=submit]:hover{
+    background:#00ffff;
+    color:#000;
+    box-shadow:0 0 15px #00ffff;
+  }
+</style>
+
+<script>
+$(if advert-pending == 'yes')
+  var popup = '';
+  function focusAdvert(){if(window.focus) popup.focus();}
+  function openAdvert(){
+    popup = open('$(link-advert)', 'hotspot_advert', '');
+    setTimeout("focusAdvert()", 1000);
+  }
+$(endif)
+  function openLogout(){
+    if(window.name != 'hotspot_status') return true;
+    open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,status=0,menubars=0,resizable=1,width=280,height=250');
+    window.close();
+    return false;
+  }
+</script>
+</head>
+
+<body $(if advert-pending == 'yes') onLoad="openAdvert()" $(endif)>
+  <canvas id="network"></canvas>
+  <div class="main">
+    <div class="wrap">
+      <div class="brand-title">Time Communication Zone</div>
+      $(if login-by == 'trial')
+        <h1>Hi, trial user!</h1>
+      $(elif login-by != 'mac')
+        <h1>Welcome, $(username)!</h1>
+      $(endif)
+
+      <form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+        <table>
+          <tr><td>IP Address</td><td>$(ip)</td></tr>
+          <tr><td>Usage (Up / Down)</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
+          $(if session-time-left)
+            <tr><td>Connected / Left</td><td>$(uptime) / $(session-time-left)</td></tr>
+          $(else)
+            <tr><td>Connected</td><td>$(uptime)</td></tr>
+          $(endif)
+          $(if blocked == 'yes')
+            <tr><td>Status</td><td><a href="$(link-advert)" target="hotspot_advert">Advertisement required</a></td></tr>
+          $(elif refresh-timeout)
+            <tr><td>Status refresh</td><td>$(refresh-timeout)</td></tr>
+          $(endif)
+        </table>
+
+        $(if login-by-mac != 'yes')
+        <input type="submit" value="Log Out">
+        $(endif)
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // animated glowing background
+    const canvas=document.getElementById("network");
+    const ctx=canvas.getContext("2d");
+    let w,h,particles=[];
+    const count=80;const connectDist=120;
+    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+    window.addEventListener("resize",resize);resize();
+    for(let i=0;i<count;i++){
+      particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,dx:(Math.random()-0.5)*1.2,dy:(Math.random()-0.5)*1.2});
+    }
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle="rgba(0,255,255,0.7)";
+      for(let p of particles){
+        ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+      }
+      for(let i=0;i<count;i++){
+        for(let j=i+1;j<count;j++){
+          let a=particles[i],b=particles[j];
+          let dx=a.x-b.x,dy=a.y-b.y;
+          let dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<connectDist){
+            ctx.strokeStyle="rgba(0,255,255,"+(1-dist/connectDist)+")";
+            ctx.lineWidth=0.4;
+            ctx.beginPath();
+            ctx.moveTo(a.x,a.y);
+            ctx.lineTo(b.x,b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      update();requestAnimationFrame(draw);
+    }
+    function update(){
+      for(let p of particles){
+        p.x+=p.dx;p.y+=p.dy;
+        if(p.x<0||p.x>w)p.dx*=-1;
+        if(p.y<0||p.y>h)p.dy*=-1;
+      }
+    }
+    draw();
+  </script>
+</body>
+</html>

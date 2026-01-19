@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Obsidian Music Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-shell">
+        <div class="main-content">
+            <main class="player-stage">
+                <header class="top-header">
+                    <div class="logo">Music<span>Player</span></div>
+                    <button id="sync-folder" class="btn-sync" title="Import Folder (Click here)"><i class="fas fa-folder-open"></i> SYNC</button>
+                </header>
+
+                <div class="visualizer-container">
+                    <div class="visualizer-box">
+                        <canvas id="visualizer-canvas"></canvas>
+                    </div>
+                </div>
+
+                <div class="track-meta">
+                    <h1 id="track-name">System Standby</h1>
+                    <p id="track-artist">Select a folder to begin session</p>
+                    <div id="status-toast" class="toast">Mode: Shuffle</div>
+                </div>
+            </main>
+
+            <aside class="library-panel" id="sidebar">
+                <div class="search-container">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search track library...">
+                </div>
+                <ul id="playlist" class="custom-scroll"></ul>
+            </aside>
+        </div>
+
+        <footer class="control-bar">
+            <div class="playback-engine">
+                <div class="btn-group">
+                    <i class="fas fa-shuffle active" id="mode-btn" title="Mode Toggle (Press S)"></i>
+                    <i class="fas fa-backward-step" id="prev" title="Previous (Left Arrow)"></i>
+                    <div class="play-trigger" id="play-pause" title="Play/Pause (Space)"><i class="fas fa-play"></i></div>
+                    <i class="fas fa-forward-step" id="next" title="Next (Right Arrow)"></i>
+                </div>
+                <div class="scrub-engine">
+                    <span class="timer" id="current-time">0:00</span>
+                    <input type="range" id="seek_slider" class="range-slider" min="0" max="100" value="0">
+                    <span class="timer" id="total-duration">0:00</span>
+                </div>
+            </div>
+
+            <div class="audio-engine">
+                <i class="fas fa-volume-high"></i>
+                <input type="range" id="volume_slider" class="range-slider vol" min="0" max="100" value="80">
+                <span id="vol-value">80</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

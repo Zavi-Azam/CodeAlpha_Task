@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta http-equiv="refresh" content="2; url=$(link-orig)">
+  <meta charset="utf-8">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Time Communication Zone - Advertisement</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+    html,body{height:100%;width:100%;overflow:hidden;background:#020412;color:#fff;}
+
+    canvas#network{
+      position:fixed;
+      top:0;left:0;
+      width:100%;height:100%;
+      background:radial-gradient(circle at center,#040720,#000);
+      z-index:0;
+    }
+
+    .main{
+      position:relative;
+      z-index:5;
+      height:100vh;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+    }
+
+    .wrap{
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.2);
+      border-radius:20px;
+      padding:2rem 3rem;
+      width:90%;
+      max-width:420px;
+      text-align:center;
+      box-shadow:0 0 40px rgba(0,255,255,0.25);
+      backdrop-filter:blur(15px);
+      animation:fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+
+    .brand-title{
+      font-size:1.5rem;
+      font-weight:700;
+      color:#00ffff;
+      text-shadow:0 0 8px #00ffff,0 0 16px #0080ff,0 0 30px #00ffff;
+      margin-bottom:1rem;
+      letter-spacing:1px;
+    }
+
+    h1{
+      font-size:1.2rem;
+      color:#00ffff;
+      text-shadow:0 0 10px #00ffff;
+      margin-bottom:1rem;
+    }
+
+    .info{
+      font-size:0.9rem;
+      color:#ccc;
+    }
+
+    .info a{
+      color:#00ffff;
+      text-decoration:none;
+      transition:0.3s;
+    }
+
+    .info a:hover{
+      color:#fff;
+      text-shadow:0 0 8px #00ffff;
+    }
+
+    .footer{
+      margin-top:1.5rem;
+      font-size:0.8rem;
+      color:#aaa;
+    }
+  </style>
+  <script>
+    var popup='';
+    function openOrig(){
+      if(window.focus) popup.focus();
+      location.href=unescape('$(link-orig-esc)');
+    }
+    function openAd(){
+      location.href=unescape('$(link-redirect-esc)');
+    }
+    function openAdvert(){
+      if(window.name!='hotspot_advert'){
+        popup=open('$(link-redirect)','hotspot_advert','');
+        setTimeout("openOrig()",1000);
+        return;
+      }
+      setTimeout("openAd()",1000);
+    }
+  </script>
+</head>
+<body onLoad="openAdvert()">
+  <canvas id="network"></canvas>
+
+  <div class="main">
+    <div class="wrap">
+      <div class="brand-title">Time Communication Zone</div>
+      <h1>Advertisement</h1>
+      <p class="info">If nothing happens, open <a href="$(link-redirect)" target="hotspot_advert">advertisement</a> manually.</p>
+      <p class="footer">© 2025 Time Communication Zone</p>
+    </div>
+  </div>
+
+  <script>
+    const canvas=document.getElementById("network");
+    const ctx=canvas.getContext("2d");
+    let w,h,particles=[];
+    const count=80;const connectDist=120;
+
+    function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+    window.addEventListener("resize",resize);
+    resize();
+
+    for(let i=0;i<count;i++){
+      particles.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2+1,dx:(Math.random()-0.5)*1.2,dy:(Math.random()-0.5)*1.2});
+    }
+
+    function draw(){
+      ctx.clearRect(0,0,w,h);
+      ctx.fillStyle="rgba(0,255,255,0.7)";
+      for(let p of particles){
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+      }
+      for(let i=0;i<count;i++){
+        for(let j=i+1;j<count;j++){
+          let a=particles[i],b=particles[j];
+          let dx=a.x-b.x,dy=a.y-b.y;
+          let dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<connectDist){
+            ctx.strokeStyle="rgba(0,255,255,"+(1-dist/connectDist)+")";
+            ctx.lineWidth=0.4;
+            ctx.beginPath();
+            ctx.moveTo(a.x,a.y);
+            ctx.lineTo(b.x,b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      update();
+      requestAnimationFrame(draw);
+    }
+
+    function update(){
+      for(let p of particles){
+        p.x+=p.dx;p.y+=p.dy;
+        if(p.x<0||p.x>w)p.dx*=-1;
+        if(p.y<0||p.y>h)p.dy*=-1;
+      }
+    }
+    draw();
+  </script>
+</body>
+</html>

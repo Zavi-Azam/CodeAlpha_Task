@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Page</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- ✅ External CSS file -->
+  <link rel="stylesheet" href="css/style2.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #fdfdfd;
+      color: #333;
+      padding-top: 80px;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed; top: 0; left: 0;
+      width: 100%; display: flex;
+      justify-content: space-between; align-items: center;
+      padding: 15px 10%;
+      background: rgba(255,255,255,0.95);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000; backdrop-filter: blur(8px);
+    }
+    nav .logo { font-size: 24px; font-weight: 700; color: #1d4d2d; }
+    nav .logo::after { content: "❤"; font-size: 14px; color: #e63946; margin-left: 5px; }
+    nav ul { list-style: none; display: flex; gap: 30px; }
+    nav ul li { position: relative; }
+    nav ul li a {
+      text-decoration: none; font-size: 16px; color: #333;
+      padding: 8px 12px; display: block; position: relative;
+    }
+    nav ul li a::after {
+      content: ""; position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: linear-gradient(90deg,#1d4d2d,#2a9d8f);
+      transition: width 0.3s ease;
+    }
+    nav ul li a:hover::after { width: 100%; }
+
+    /* Dropdown */
+    .dropdown {
+      display: none; position: absolute; top: 100%; left: 0;
+      background: white; min-width: 200px; box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      border-radius: 8px; opacity: 0; transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+    .dropdown li a { padding: 12px 16px; font-size: 15px; color: #333; }
+    nav ul li:hover .dropdown { display: block; opacity: 1; transform: translateY(0); }
+
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; cursor: pointer; z-index: 1100; }
+    .hamburger div {
+      width: 25px; height: 3px; background: #333;
+      margin: 4px 0; transition: 0.3s;
+    }
+
+    /* Mobile menu */
+    .overlay {
+      position: fixed; top: 0; right: -100%;
+      width: 70%; height: 100vh; background: white;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+      padding-top: 80px; display: flex; flex-direction: column; gap: 20px;
+      transition: right 0.4s ease; z-index: 1000;
+    }
+    .overlay a { padding: 15px; text-decoration: none; color: #333; font-size: 18px; }
+    .overlay.active { right: 0; }
+
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* Product Section */
+    .container {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+      max-width: 1100px; margin: 40px auto;
+      background: #fff; padding: 30px;
+      border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .product-images img { width: 100%; border-radius: 12px; }
+    .product-info h1 { font-size: 2rem; margin-bottom: 10px; color: #2b6777; }
+    .product-info .price { font-size: 1.6rem; color: #f07b3f; margin-bottom: 15px; }
+    .product-info .rating { color: #ffb703; margin-bottom: 20px; }
+    .product-info p { margin-bottom: 15px; line-height: 1.6; }
+    ul { margin-left: 20px; margin-bottom: 20px; }
+    .buttons { display: flex; gap: 15px; margin-top: 20px; }
+    .btn {
+      padding: 12px 20px; border: none; border-radius: 8px;
+      cursor: pointer; font-size: 1rem; transition: 0.3s;
+    }
+    .btn-cart { background: #52ab98; color: white; }
+    .btn-buy { background: #f07b3f; color: white; }
+    .btn:hover { opacity: 0.85; }
+
+    @media (max-width: 768px) {
+      .container { grid-template-columns: 1fr; }
+    }
+/* Base container */
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+
+  /* hidden state */
+  opacity: 0;
+  transition: all 1s ease-out;
+}
+
+/* Slide from left */
+.container.from-left {
+  transform: translateX(-120px);
+}
+
+/* Slide from right */
+.container.from-right {
+  transform: translateX(120px);
+}
+
+/* When visible */
+.container.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">FurEverCare</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+
+      <li>
+        <a href="product.html">Products ▾</a>
+        <ul class="dropdown">
+          <li><a href="food.html">Food</a></li>
+          <li><a href="toys.html">Toys</a></li>
+          <li><a href="supplements.html">Supplements</a></li>
+          <li><a href="kits.html">Grooming Kits</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="services.html">Services ▾</a>
+        <ul class="dropdown">
+          <li><a href="bathing.html">Bathing</a></li>
+          <li><a href="feeding.html">Feeding</a></li>
+          <li><a href="vaccination.html">Vaccination</a></li>
+          <li><a href="grooming.html">Grooming</a></li>
+        </ul>
+      </li>
+        <li><a href="About.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+  </nav>
+
+  <!-- Mobile Sidebar -->
+  <div class="overlay" id="mobileMenu">
+    <a href="navbar.html">Home</a>
+    <a href="About.html">About Us</a>
+    <a href="services.html">Services</a>
+    <a href="product.html">Products</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- Product Sections -->
+  <div class="container">
+    <div class="product-images"><img src="images/WhatsApp Image 2025-09-11 at 5.02.20 PM.jpeg" alt="Pet Shampoo"></div>
+    <div class="product-info">
+      <h1>Gentle Pet Shampoo</h1>
+      <div class="price">$12.99</div>
+      <div class="rating">⭐⭐⭐⭐⭐ (85 reviews)</div>
+      <p>Keep your furry friend’s coat shiny, soft, and fresh with our gentle pet shampoo.</p>
+      <ul><li>✔️ Natural ingredients</li><li>✔️ Hypoallergenic</li><li>✔️ Vet-approved</li></ul>
+      <div class="buttons"><button class="btn btn-cart">Add to Cart</button><button class="btn btn-buy">Buy Now</button></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="product-images"><img src="images/813UMHLvImL.__AC_SX300_SY300_QL70_FMwebp_.webp" alt="Dog Food"></div>
+    <div class="product-info">
+      <h1>Nutritious Dog Food</h1>
+      <div class="price">$24.99</div>
+      <div class="rating">⭐⭐⭐⭐☆ (120 reviews)</div>
+      <p>A balanced diet with vitamins and minerals for dogs of all breeds.</p>
+      <ul><li>✔️ High protein</li><li>✔️ Grain-free</li><li>✔️ Supports immunity</li></ul>
+      <div class="buttons"><button class="btn btn-cart">Add to Cart</button><button class="btn btn-buy">Buy Now</button></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="product-images"><img src="images/WhatsApp Image 2025-09-11 at 5.06.02 PM.jpeg" alt="Cat Toy"></div>
+    <div class="product-info">
+      <h1>Interactive Cat Toy</h1>
+      <div class="price">$9.99</div>
+      <div class="rating">⭐⭐⭐⭐⭐ (210 reviews)</div>
+      <p>Keep your cat active and entertained with this fun interactive toy.</p>
+      <ul><li>✔️ Safe materials</li><li>✔️ Encourages exercise</li><li>✔️ Long-lasting</li></ul>
+      <div class="buttons"><button class="btn btn-cart">Add to Cart</button><button class="btn btn-buy">Buy Now</button></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="product-images"><img src="images/Mega-Pet-pro-health-multivitamins-600x519.webp" alt="Pet Supplements"></div>
+    <div class="product-info">
+      <h1>Healthy Pet Supplements</h1>
+      <div class="price">$18.50</div>
+      <div class="rating">⭐⭐⭐⭐ (65 reviews)</div>
+      <p>Boost your pet’s health with natural supplements made by vets.</p>
+      <ul><li>✔️ Omega-3 rich</li><li>✔️ Supports joints</li><li>✔️ Enhances coat shine</li></ul>
+      <div class="buttons"><button class="btn btn-cart">Add to Cart</button><button class="btn btn-buy">Buy Now</button></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="product-images"><img src="images/0db0045b-5c55-46fd-926d-c12180acc5ad.__CR0,0,970,600_PT0_SX970_V1___.jpg" alt="Pet Brush"></div>
+    <div class="product-info">
+      <h1>Comfort Pet Brush</h1>
+      <div class="price">$14.75</div>
+      <div class="rating">⭐⭐⭐⭐⭐ (190 reviews)</div>
+      <p>Groom your pet with ease using this soft and durable brush.</p>
+      <ul><li>✔️ Gentle bristles</li><li>✔️ Reduces shedding</li><li>✔️ Comfortable grip</li></ul>
+      <div class="buttons"><button class="btn btn-cart">Add to Cart</button><button class="btn btn-buy">Buy Now</button></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="product-images"><img src="images/bed1.jpeg" alt="Pet Bed"></div>
+    <div class="product-info">
+      <h1>Cozy Pet Bed</h1>
+      <div class="price">$29.99</div>
+      <div class="rating">⭐⭐⭐⭐⭐ (300 reviews)</div>
+      <p>Give your pet a warm and soft place to rest with our plush pet bed.</p>
+      <ul><li>✔️ Washable cover</li><li>✔️ Soft cushioning</li><li>✔️ Anti-slip base</li></ul>
+      <div class="buttons"><button class="btn btn-cart">Add to Cart</button><button class="btn btn-buy">Buy Now</button></div>
+    </div>
+  </div>
+<footer>
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h2 class="logo-text">FurEver<span>Care</span></h2>
+        <p>
+          At FurEverCare, we are dedicated to keeping your beloved pets happy, healthy, and safe.
+          From grooming and bathing to nutritious feeding, vaccinations, and medical check-ups, we
+          provide a complete range of professional pet care services. Our experienced team ensures
+          every pet receives love, attention, and the highest quality care in a comfortable and
+          friendly environment.
+        </p>
+      </div>
+
+      <div class="footer-section contact">
+        <h2>Contact Us</h2>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Hyderabad</li>
+          <li><i class="fas fa-envelope"></i> FurEverCare@gmail.com</li>
+          <li><i class="fas fa-phone"></i> +92 335 2563767</li>
+        </ul>
+      </div>
+
+      <div class="footer-section social">
+        <h2>Follow Us</h2>
+        <div class="social-icons">
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-pinterest"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("active");
+    }
+    
+
+document.addEventListener('DOMContentLoaded', () => {
+  const containers = document.querySelectorAll('.container');
+
+  containers.forEach((container, index) => {
+    // Add alternating directions
+    if (index % 2 === 0) {
+      container.classList.add('from-left');
+    } else {
+      container.classList.add('from-right');
+    }
+  });
+
+  // Observer for scroll animation
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  containers.forEach(container => observer.observe(container));
+});
+</script>
+
+
+</body>
+</html>

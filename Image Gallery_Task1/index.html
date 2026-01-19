@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="header">
+    <h1>Image Gallery</h1>
+
+    <div class="controls">
+        <select id="categoryFilter">
+            <option value="all">All Categories</option>
+            <option value="nature">Nature</option>
+            <option value="city">City</option>
+            <option value="animals">Animals</option>
+        </select>
+    </div>
+</header>
+
+<section class="add-image">
+    <h2>Add New Image</h2>
+
+    <form id="addImageForm">
+        <input 
+    type="file"
+    id="imageInput"
+    accept=".jpg,.jpeg,.png,.gif,.webp,.bmp,.svg,.jfif,.avif"
+    required
+>
+        <input type="text" id="titleInput" placeholder="Image Title" required>
+
+        <select id="categoryInput" required>
+            <option value="">Select Category</option>
+            <option value="nature">Nature</option>
+            <option value="city">City</option>
+            <option value="animals">Animals</option>
+        </select>
+
+        <button type="submit" class="add-image">Add Image</button>
+    </form>
+</section>
+
+
+<main class="gallery" id="gallery">
+    <!-- Image Cards injected by JS -->
+</main>
+
+
+
+
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+    <button class="close">&times;</button>
+    
+    <!-- FIX: id changed to lightboxImg -->
+    <img id="lightboxImg" class="lightbox-image" alt="Selected Image">
+    
+    <div class="lightbox-actions">
+        <a id="downloadBtn" download></a>
+        <!-- Added delete button -->
+        <button id="deleteBtn">🗑️</button>
+    </div>
+    
+    <button class="nav prev">❮</button>
+    <button class="nav next">❯</button>
+</div>
+
+
+
+<script src="script.js"></script>
+</body>
+</html>

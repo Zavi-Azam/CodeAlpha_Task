@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Precision Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/big.js/6.2.1/big.min.jss"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/big.js@6.2.1/big.min.js"></script>
+</head>
+<body>
+
+  <main class="calculator" role="application" aria-label="Calculator">
+  <output id="display" aria-live="polite">0</output>
+
+  <section class="keys">
+    <button data-action="clear">C</button>
+    <button data-op="/">÷</button>
+    <button data-op="*">×</button>
+    <button data-action="delete">⌫</button>
+
+    <button data-num="7">7</button>
+    <button data-num="8">8</button>
+    <button data-num="9">9</button>
+    <button data-op="-">−</button>
+
+    <button data-num="4">4</button>
+    <button data-num="5">5</button>
+    <button data-num="6">6</button>
+    <button data-op="+">+</button>
+
+    <button data-num="1">1</button>
+    <button data-num="2">2</button>
+    <button data-num="3">3</button>
+    <button data-action="equals" class="equals">=</button>
+
+    <button data-num="0" class="zero">0</button>
+    <button data-num=".">.</button>
+  </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

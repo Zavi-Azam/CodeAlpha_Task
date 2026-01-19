@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Pet Toys</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- ✅ External CSS file -->
+  <link rel="stylesheet" href="css/style2.css" />
+<style>
+  
+  /* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: #fdfdfd;
+  color: #333;
+  padding-top: 80px;
+  line-height: 1.4;
+}
+
+/* ================= NAVBAR ================= */
+nav {
+  position: fixed;
+  top: 0; left: 0; width: 100%;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 15px 10%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+}
+nav .logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1d4d2d;
+  letter-spacing: 1px;
+}
+nav .logo::after {
+  content: "❤";
+  font-size: 14px;
+  color: #e63946;
+  margin-left: 5px;
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+nav ul li { position: relative; }
+nav ul li a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+  padding: 8px 12px;
+  display: block;
+  position: relative;
+}
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 2px;
+  background: linear-gradient(90deg, #1d4d2d, #2a9d8f);
+  transition: width 0.3s ease;
+}
+nav ul li a:hover::after { width: 100%; }
+
+/* Dropdown */
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%; left: 0;
+  background: white;
+  min-width: 200px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+.dropdown li a {
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #333;
+}
+nav ul li:hover .dropdown {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 1100;
+}
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  margin: 4px 0;
+  transition: 0.3s;
+}
+
+/* Mobile Menu Overlay */
+.overlay {
+  position: fixed; top: 0; right: -100%;
+  width: 70%; height: 100vh;
+  background: white;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  padding-top: 80px;
+  display: flex; flex-direction: column; gap: 20px;
+  transition: right 0.4s ease;
+  z-index: 1000;
+}
+.overlay a {
+  padding: 12px 20px;
+  font-size: 18px;
+  color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #eee;
+}
+.overlay.active { right: 0; }
+
+@media (max-width: 768px) {
+  nav ul { display: none; }
+  .hamburger { display: flex; }
+}
+
+/* ================= PRODUCT SECTION ================= */
+.product-section {
+  max-width: 1300px;
+  margin: 60px auto;
+  padding: 50px;
+  opacity: 0;               
+  transform: translateY(-100px); 
+  transition: all 1s ease-out;
+}
+.product-section.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.product-section h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 30px;
+  color: #2b6777;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+/* Card Base */
+.product-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  opacity: 0;
+  transition:
+    transform 1.2s cubic-bezier(.2,.9,.2,1),
+    opacity 1.2s cubic-bezier(.2,.9,.2,1);
+  will-change: transform, opacity;
+}
+.product-card:hover { transform: translateY(-5px); }
+
+/* Card Entry Directions */
+.product-card.top-to-bottom { transform: translateY(-80px); }
+.product-card.left-to-right { transform: translateX(-90px); }
+.product-card.right-to-left { transform: translateX(90px); }
+.product-card.show {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+.product-card.show:hover { transform: translateY(-6px); }
+
+.product-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+.product-card h3 {
+  font-size: 18px;
+  color: #1d4d2d;
+  margin-bottom: 10px;
+}
+.product-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+.price {
+  font-weight: 600;
+  color: #2a9d8f;
+  margin-bottom: 15px;
+}
+.btn {
+  padding: 10px 20px;
+  background: #2a9d8f;
+  border: none;
+  color: #fff;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+.btn:hover { background: #21867a; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo">FurEverCare</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+       <li>
+        <a href="product.html">Products ▾</a>
+        <ul class="dropdown">
+          <li><a href="food.html">Food</a></li>
+          <li><a href="toys.html">Toys</a></li>
+          <li><a href="supplements.html">Supplements</a></li>
+          <li><a href="kits.html">Grooming Kits</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="services.html">Services ▾</a>
+        <ul class="dropdown">
+          <li><a href="bathing.html">Bathing</a></li>
+          <li><a href="feeding.html">Feeding</a></li>
+          <li><a href="vaccination.html">Vaccination</a></li>
+          <li><a href="grooming.html">Grooming</a></li>
+        </ul>
+      </li>
+     
+         <li><a href="About.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div><div></div><div></div>
+    </div>
+  </nav>
+
+  <!-- Mobile Sidebar -->
+  <div class="overlay" id="mobileMenu">
+    <a href="navbar.html">Home</a>
+    <a href="About.html">About Us</a>
+    <a href="services.html">Services</a>
+    <a href="product.html">Products</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- Toys Products Section -->
+  <div class="product-section">
+    <h1>Fun Pet Toys</h1>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="https://cdn.thewirecutter.com/wp-content/media/2021/12/dog-toys-2048px-0010.jpg?auto=webp&quality=60&width=570" alt="Chew Toy">
+        <h3>Durable Chew Toy</h3>
+        <p>Perfect for teething puppies and active chewers.</p>
+        <div class="price">$12.00</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://m.media-amazon.com/images/I/51MZiWZi0jL.jpg" alt="Cat Teaser Wand">
+        <h3>Cat Teaser Wand</h3>
+        <p>Interactive toy to keep your cat playful and happy.</p>
+        <div class="price">$10.00</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://www.chiwava.com/wp-content/uploads/2022/05/%E6%96%B0-%E5%A4%A7%E7%9B%92%E5%AD%901.jpg" alt="Toy Ball Set">
+        <h3>Colorful Ball Set</h3>
+        <p>Fun fetch balls for dogs of all sizes.</p>
+        <div class="price">$8.00</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://static01.galaxus.com/productimages/1/3/6/0/6/5/3/5/5/2/0/6/5/7/7/5/6/2/0/706045db-7a8d-42e8-8348-e23e8a3d13d6.jpg_720.jpeg" alt="Plush Toy">
+        <h3>Soft Plush Toy</h3>
+        <p>Cuddly plush toy for pets to snuggle and play.</p>
+        <div class="price">$15.00</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+    </div>
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="https://stylish-hound.com/cdn/shop/products/Untitleddesign_1_046e5589-dd75-4bf8-b4e5-7d1525896468-664595-295307.jpg?v=1645514386" alt="Chew Toy">
+        <h3>Lick Mat with Suction</h3>
+        <p>Stick it to the floor or wall, spread peanut butter (for dogs) or wet food (for cats). Calms anxiety and keeps them occupied.</p>
+        <div class="price">$8.00</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://i5.walmartimages.com/seo/Chuckit-Air-Glow-in-the-Dark-Fetch-Hard-Breathe-Easy-Dog-Ball-Medium-2-5-for-Dogs-20-to-60-lb-Pack-of-2-White_943aff3d-b56b-4bfc-b082-c0524ba5e32c.037e980104ccc8cded6ca96ec249f518.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF" alt="Cat Teaser Wand">
+        <h3>GlowFetch Night Ball</h3>
+        <p>Evening playtime just got an upgrade. The GlowFetch Night Ball charges in sunlight and glows brightly at dusk, so you’ll never lose another toy. Made with durable, bite-resistant material for extended outdoor fun.</p>
+        <div class="price">$10.00</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://everestandco.uk/cdn/shop/files/269858__50837.jpg?v=1694953402" alt="Toy Ball Set">
+        <h3>EcoChew Natural Rubber Bone</h3>
+        <p>Say goodbye to chewed-up furniture. The EcoChew Bone is crafted from 100% natural, non-toxic rubber that’s safe, tough, and satisfying to chew. Its textured design massages gums and cleans teeth—fun and functional in one eco-friendly toy!</p>
+        <div class="price">$8.00</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+      <div class="product-card">
+        <img src="https://cdn.shopify.com/s/files/1/0534/0132/1622/files/Self-Balance-Tumbler-Toy-for-Kittens-and-Cats-High-0.png?v=1747176198" alt="Plush Toy">
+        <h3>Self‑Balance Tumbler Toy</h3>
+        <p>A toy with a tumbler design (it rocks back and forth when touched), contains catnip and has a wand/chaser. No battery.</p>
+        <div class="price">$15.00</div>
+        <button class="btn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+<footer>
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h2 class="logo-text">FurEver<span>Care</span></h2>
+        <p>
+          At FurEverCare, we are dedicated to keeping your beloved pets happy, healthy, and safe.
+          From grooming and bathing to nutritious feeding, vaccinations, and medical check-ups, we
+          provide a complete range of professional pet care services. Our experienced team ensures
+          every pet receives love, attention, and the highest quality care in a comfortable and
+          friendly environment.
+        </p>
+      </div>
+
+      <div class="footer-section contact">
+        <h2>Contact Us</h2>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Hyderabad</li>
+          <li><i class="fas fa-envelope"></i> FurEverCare@gmail.com</li>
+          <li><i class="fas fa-phone"></i> +92 335 2563767</li>
+        </ul>
+      </div>
+
+      <div class="footer-section social">
+        <h2>Follow Us</h2>
+        <div class="social-icons">
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-pinterest"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script>
+  // ---- Mobile Menu Toggle ----
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    if (!menu) return;
+    menu.classList.toggle('active');
+    menu.setAttribute('aria-hidden', String(!menu.classList.contains('active')));
+  }
+
+  // ---- Product Section + Cards Animation ----
+  document.addEventListener("DOMContentLoaded", () => {
+    const section = document.querySelector(".product-section");
+    const cards = document.querySelectorAll(".product-card");
+
+    function revealOnScroll() {
+      const trigger = window.innerHeight * 0.85;
+
+      // Section fade-in
+      if (section.getBoundingClientRect().top < trigger) {
+        section.classList.add("animate");
+      }
+
+      // Cards fade-in
+      cards.forEach((card, i) => {
+        const top = card.getBoundingClientRect().top;
+        if (top < trigger) {
+          card.style.transitionDelay = `${i * 120}ms`;
+          card.classList.add("show");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", revealOnScroll);
+    revealOnScroll(); // run once on load
+  });
+</script>
+
+
+</body>
+</html>

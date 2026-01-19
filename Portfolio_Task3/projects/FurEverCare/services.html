@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service</title>
+
+  <!-- Font Awesome CDN for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- ✅ External CSS file -->
+  <link rel="stylesheet" href="css/style2.css" />
+ <style>
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, sans-serif;
+  background: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10%;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  
+}
+
+nav .logo {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1d4d2d;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+nav .logo::after {
+  content: "❤";
+  font-size: 14px;
+  color: #e63946;
+  margin-left: 5px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+}
+
+nav ul li {
+  position: relative;
+}
+
+nav ul li a {
+  text-decoration: none;
+  font-size: 16px;
+  color: #333;
+  padding: 8px 12px;
+  display: block;
+  position: relative;
+}
+
+nav ul li a::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #1d4d2d, #2a9d8f);
+  transition: width 0.3s ease;
+}
+
+nav ul li a:hover::after {
+  width: 100%;
+}
+
+/* Dropdown */
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  min-width: 200px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+  border-radius: 8px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+}
+
+nav ul li:hover .dropdown {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.dropdown li a {
+  padding: 12px 16px;
+  font-size: 15px;
+  color: #333;
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.hamburger div {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  margin: 4px 0;
+  transition: 0.3s;
+}
+
+/* Mobile menu overlay */
+.overlay {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 70%;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: right 0.4s ease;
+  z-index: 1000;
+}
+
+.overlay.active {
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+}
+
+/* Services Section */
+.services-section {
+  max-width: 1100px;
+  margin: 100px auto 50px;
+  padding: 20px;
+  
+}
+
+.services-section h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 50px;
+  letter-spacing: 2px;
+  color: #1d4d2d;
+  
+}
+
+/* Service Box Base */
+.service-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 30px;
+  margin-bottom: 40px;
+
+  /* Scroll animation base */
+  opacity: 0;
+  transition: all 1s ease-out;
+}
+
+/* Left-to-right animation */
+.service-box.left {
+  transform: translateX(-100px);
+}
+.service-box.left.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Right-to-left animation */
+.service-box.right {
+  transform: translateX(100px);
+}
+.service-box.right.animate {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Hover effect */
+.service-box:hover {
+  transform: translateY(-5px);
+}
+
+/* Content */
+.service-content {
+  max-width: 55%;
+}
+
+.service-content h3 {
+  font-size: 22px;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+}
+
+.service-content h4 {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.service-content p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.buttons a {
+  text-decoration: none;
+  padding: 10px 18px;
+  border-radius: 25px;
+  border: 1px solid #0077b6;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.buttons a:first-child {
+  background: transparent;
+  color: #0077b6;
+}
+
+.buttons a:first-child:hover {
+  background: #0077b6;
+  color: #fff;
+}
+
+.buttons a:last-child {
+  background: #0077b6;
+  color: #fff;
+}
+
+.buttons a:last-child:hover {
+  background: #023e8a;
+}
+
+/* Image */
+.service-img img {
+  width: 280px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .service-box {
+    flex-direction: column;
+    text-align: center;
+  }
+  .service-content {
+    max-width: 100%;
+  }
+  .service-img img {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+  .buttons {
+    justify-content: center;
+  }
+}
+
+ </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">FurEverCare</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li>
+        <a href="product.html">Products ▾</a>
+        <ul class="dropdown">
+          <li><a href="food.html">Food</a></li>
+          <li><a href="toys.html">Toys</a></li>
+          <li><a href="supplements.html">Supplements</a></li>
+          <li><a href="kits.html">Grooming Kits</a></li>
+        </ul>
+      <li>
+        <a href="services.html">Services ▾</a>
+        <ul class="dropdown">
+          <li><a href="bathing.html">Bathing</a></li>
+          <li><a href="feeding.html">Feeding</a></li>
+          <li><a href="vaccination.html">Vaccination</a></li>
+          <li><a href="grooming.html">Grooming</a></li>
+        </ul>
+      
+      <li><a href="About.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </nav>
+
+  <!-- Mobile Sidebar -->
+  <div class="overlay" id="mobileMenu">
+    <a href="navbar.html">Home</a>
+    <a href="About.html">About Us</a>
+    <a href="services.html">Services</a>
+    <a href="product.html">Products</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+
+<div class="service-box">
+  <div class="service-content" style="margin-top: 100px;">
+    <h3>Bathing & Grooming</h3>
+    <h4>Keeping Pets Fresh & Healthy</h4>
+    <p>We provide gentle bathing and grooming services to keep your pets clean, comfortable, and looking their best.</p>
+    <div class="buttons">
+      <a href="#">Learn More</a>
+      <a href="#">Book Now</a>
+    </div>
+  </div>
+  <div class="service-img">
+    <img src="images/WhatsApp Image 2025-09-11 at 5.27.43 PM.jpeg" alt="Pet Bathing">
+  </div>
+</div>
+
+<div class="service-box">
+  <div class="service-content">
+    <h3>Healthy Feeding</h3>
+    <h4>Nutrition That Cares</h4>
+    <p>Balanced meals and proper feeding guidance to ensure your pets stay strong, active, and happy.</p>
+    <div class="buttons">
+      <a href="#">Learn More</a>
+      <a href="#">View Plans</a>
+    </div>
+  </div>
+  <div class="service-img">
+    <img src="https://hungertail.com/cdn/shop/articles/hungertail_blog_image1.jpg?v=1722947740&width=1500" alt="Pet Feeding">
+  </div>
+</div>
+
+<div class="service-box">
+  <div class="service-content">
+    <h3>Vaccination & Health</h3>
+    <h4>Protecting Your Pet’s Future</h4>
+    <p>We provide expert vaccination and medical check-ups to safeguard your pets against diseases and ensure long-term health.</p>
+    <div class="buttons">
+      <a href="#">Learn More</a>
+      <a href="#">Book Appointment</a>
+    </div>
+  </div>
+  <div class="service-img">
+    <img src="https://smb.ibsrv.net/imageresizer/image/article_manager/1200x1200/19980/199645/heroimage0.289783001590709183.jpg" alt="Pet Vaccination">
+  </div>
+</div>
+
+<div class="service-box">
+  <div class="service-content">
+    <h3>Medical Reports</h3>
+    <h4>Tracking Health Progress</h4>
+    <p>We maintain detailed medical records and reports so you can keep track of your pet’s health journey with ease.</p>
+    <div class="buttons">
+      <a href="#">Learn More</a>
+      <a href="#">View Reports</a>
+    </div>
+  </div>
+  <div class="service-img">
+    <img src="https://img.freepik.com/premium-vector/pet-medical-report-icon-flat-vector_116137-8037.jpg" alt="Medical Reports">
+  </div>
+</div>
+<footer>
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h2 class="logo-text">FurEver<span>Care</span></h2>
+        <p>
+          At FurEverCare, we are dedicated to keeping your beloved pets happy, healthy, and safe.
+          From grooming and bathing to nutritious feeding, vaccinations, and medical check-ups, we
+          provide a complete range of professional pet care services. Our experienced team ensures
+          every pet receives love, attention, and the highest quality care in a comfortable and
+          friendly environment.
+        </p>
+      </div>
+
+      <div class="footer-section contact">
+        <h2>Contact Us</h2>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Hyderabad</li>
+          <li><i class="fas fa-envelope"></i> FurEverCare@gmail.com</li>
+          <li><i class="fas fa-phone"></i> +92 335 2563767</li>
+        </ul>
+      </div>
+
+      <div class="footer-section social">
+        <h2>Follow Us</h2>
+        <div class="social-icons">
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-pinterest"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+<script>
+ document.addEventListener('DOMContentLoaded', () => {
+  const services = document.querySelectorAll('.service-box');
+
+  services.forEach((service, index) => {
+    // Alternate left and right animation
+    if ((index + 1) % 2 === 1) {
+      service.classList.add('left');
+    } else {
+      service.classList.add('right');
+    }
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('animate');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  services.forEach(service => observer.observe(service));
+});
+
+</script>
+
+</body>
+</html>

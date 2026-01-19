@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="expires" content="-1" />
+<title>Time Communication Zone - Logout</title>
+
+<style>
+/* ==== GLOBAL STYLE ==== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #0a0f1f, #000);
+  overflow: hidden;
+  color: #fff;
+  position: relative; /* needed for ::before */
+}
+
+/* Optimized animated glowing background */
+body::before {
+  content: "";
+  position: absolute;
+  top: -25%;
+  left: -25%;
+  width: 150%; /* reduced size */
+  height: 150%;
+  background: repeating-radial-gradient(
+    circle,
+    rgba(0, 170, 255, 0.3) 0%,
+    transparent 1%
+  );
+  animation: moveGlow 40s linear infinite; /* slower animation */
+  filter: blur(40px); /* less blur */
+  opacity: 0.4;
+  z-index: 0;
+  will-change: transform; /* optimization hint */
+  pointer-events: none; /* avoid interaction */
+}
+
+/* Animation for glowing background */
+@keyframes moveGlow {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-50px, 50px) rotate(180deg); }
+  100% { transform: translate(0, 0) rotate(360deg); }
+}
+
+/* ==== MAIN CONTAINER ==== */
+.main {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  box-shadow: 0 0 25px rgba(0, 200, 255, 0.15);
+  border-radius: 20px;
+  padding: 2.5rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ==== BRAND ==== */
+.brand-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #00bfff;
+  text-shadow: 0 0 8px #00bfff, 0 0 16px #00bfff;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.5rem;
+}
+
+/* ==== TABLE ==== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+table td {
+  padding: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: left;
+  font-size: 0.95rem;
+}
+
+table td:first-child {
+  color: #a0b8ff;
+}
+
+/* ==== BUTTON ==== */
+input[type="submit"] {
+  width: 100%;
+  margin-top: 1.2rem;
+  background: linear-gradient(90deg, #00aaff, #0077ff);
+  border: none;
+  color: #fff;
+  padding: 10px 0;
+  font-size: 1rem;
+  font-weight: 500;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 10px #0077ff;
+}
+
+input[type="submit"]:hover {
+  box-shadow: 0 0 20px #00aaff, 0 0 40px #00aaff;
+  transform: scale(1.03);
+}
+
+/* ==== FOOTER ==== */
+.footer {
+  margin-top: 1.2rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+</style>
+
+<script>
+function openLogin() {
+  if (window.name != 'hotspot_logout') return true;
+  open('$(link-login)', '_blank', '');
+  window.close();
+  return false;
+}
+</script>
+
+</head>
+
+<body>
+  <div class="main">
+    <div class="brand-title">Time Communication Zone</div>
+    <h2>You have just logged out!</h2>
+    <table>
+      <tr><td>Username</td><td>$(username)</td></tr>
+      <tr><td>IP address</td><td>$(ip)</td></tr>
+      <tr><td>MAC address</td><td>$(mac)</td></tr>
+      <tr><td>Session time</td><td>$(uptime)</td></tr>
+      $(if session-time-left)
+      <tr><td>Time left</td><td>$(session-time-left)</td></tr>
+      $(endif)
+      <tr><td>Bytes up / down</td><td>$(bytes-in-nice) / $(bytes-out-nice)</td></tr>
+    </table>
+    <form action="$(link-login)" name="login" onSubmit="return openLogin()">
+      <input type="submit" value="Log in" />
+    </form>
+    <div class="footer">Powered by Time Communication Zone</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="pragma" content="no-cache" />
+  <meta http-equiv="expires" content="-1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time Communication Zone - Hotspot Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    html, body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: #020412;
+      color: #fff;
+    }
+
+    canvas#network {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center,#040720,#000);
+      z-index: 0;
+    }
+
+    .main {
+      position: relative;
+      z-index: 5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wrap {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 20px;
+      padding: 2rem 3rem;
+      width: 90%;
+      max-width: 360px;
+      box-shadow: 0 0 40px rgba(0,255,255,0.25);
+      backdrop-filter: blur(15px);
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .brand-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #00bfff;
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 40px #0077ff;
+      animation: glowPulse 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glowPulse {
+      from { text-shadow: 0 0 5px #00bfff, 0 0 10px #00bfff, 0 0 20px #00bfff, 0 0 40px #0077ff; }
+      to { text-shadow: 0 0 10px #33ccff, 0 0 20px #33ccff, 0 0 30px #1e90ff, 0 0 60px #0077ff; }
+    }
+
+    p.info {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #ccc;
+    }
+
+    p.info.bt {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+
+    label {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 0.6rem 1rem;
+      margin: 0.7rem 0;
+    }
+
+    label img.ico {
+      width: 20px;
+      margin-right: 10px;
+      opacity: 0.8;
+    }
+
+    input[type="text"], input[type="password"] {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 0.95rem;
+    }
+
+    input::placeholder {
+      color: rgba(255,255,255,0.6);
+    }
+
+    input[type="submit"] {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.7rem;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(90deg, #00f5ff, #006eff);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    input[type="submit"]:hover {
+      background: linear-gradient(90deg, #00ffc6, #0077ff);
+      box-shadow: 0 0 25px rgba(0,255,255,0.5);
+    }
+
+    .social {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 1rem;
+    }
+
+    .social a {
+      font-size: 1.3rem;
+      color: #22c55e;
+      transition: 0.3s;
+    }
+
+    .social a:hover:nth-child(1) { color: #1877f2; }
+    .social a:hover:nth-child(2) { color: #e1306c; }
+    .social a:hover:nth-child(3) { color: #1da1f2; }
+
+    /* === MOBILE ULTRA LIGHT MODE === */
+    @media(max-width:480px) {
+      .wrap {
+        background: rgba(255,255,255,0.04) !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        padding: 1.5rem 2rem;
+        animation: none !important;
+        border-radius: 12px;
+      }
+
+      .brand-title {
+        color: #33ccff !important;
+        text-shadow: none !important;
+        animation: none !important;
+        font-weight: 600;
+      }
+
+      p.info, p.info.bt {
+        color: #aaa !important;
+      }
+
+      label {
+        background: rgba(255,255,255,0.03) !important;
+        border: 1px solid rgba(255,255,255,0.08) !important;
+        padding: 0.5rem 0.8rem !important;
+        margin: 0.5rem 0 !important;
+      }
+
+      label img.ico {
+        opacity: 0.6 !important;
+        width: 18px !important;
+        margin-right: 8px !important;
+      }
+
+      input[type="text"], input[type="password"] {
+        font-size: 0.9rem !important;
+        color: #ddd !important;
+      }
+
+      input::placeholder {
+        color: rgba(255,255,255,0.4) !important;
+      }
+
+      input[type="submit"] {
+        background: #00bfff !important;
+        box-shadow: none !important;
+        transition: none !important;
+      }
+
+      input[type="submit"]:hover {
+        background: #0099cc !important;
+        box-shadow: none !important;
+      }
+
+      .social a {
+        color: #888 !important;
+        font-size: 1.2rem !important;
+        transition: none !important;
+      }
+
+      .social a:hover {
+        color: #555 !important;
+      }
+
+      canvas#network {
+        opacity: 0.6;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="network"></canvas>
+
+  <!-- MikroTik CHAP -->
+  $(if chap-id)
+  <form name="sendin" action="$(link-login-only)" method="post" style="display:none">
+    <input type="hidden" name="username" />
+    <input type="hidden" name="password" />
+    <input type="hidden" name="dst" value="$(link-orig)" />
+    <input type="hidden" name="popup" value="true" />
+  </form>
+  <script src="/md5.js"></script>
+  <script>
+    function doLogin(){
+      document.sendin.username.value=document.login.username.value;
+      document.sendin.password.value=hexMD5('$(chap-id)'+document.login.password.value+'$(chap-challenge)');
+      document.sendin.submit();
+      return false;
+    }
+  </script>
+  $(endif)
+
+  <div class="main">
+    <div class="wrap">
+      <form name="login" action="$(link-login-only)" method="post" $(if chap-id) onSubmit="return doLogin()" $(endif)>
+        <input type="hidden" name="dst" value="$(link-orig)" />
+        <input type="hidden" name="popup" value="true" />
+
+        <h1 class="brand-title">Time Communication Zone</h1>
+
+        <p class="info $(if error)alert$(endif)">
+          $(if error == "")Please log in to use the internet hotspot service$(endif)
+          $(if error)$(error)$(endif)
+        </p>
+
+        <label>
+          <img class="ico" src="img/user.svg" alt="#" />
+          <input name="username" type="text" value="$(username)" placeholder="Username" />
+        </label>
+        <label>
+          <img class="ico" src="img/password.svg" alt="#" />
+          <input name="password" type="password" placeholder="Passkey" />
+        </label>
+        <input type="submit" value="Login" />
+      </form>
+
+      <div class="social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+      </div>
+
+      <p class="info bt">Powered by Time Communication Zone</p>
+    </div>
+  </div>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  
+    <!-- ✅ Optimized Canvas Animation Script (Paste it here) -->
+    <script>
+      const canvas = document.getElementById("network");
+      const ctx = canvas.getContext("2d");
+
+      let w, h;
+      let particles = [];
+      let particleCount = 80;
+      let connectDist = 120;
+      let speedFactor = 0.3;
+
+      function resizeCanvas() {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+
+        if (w < 380) {
+          particleCount = 10;
+          connectDist = 40;
+          speedFactor = 0.15;
+        } else if (w < 768) {
+          particleCount = 20;
+          connectDist = 80;
+          speedFactor = 0.25;
+        } else {
+          particleCount = 80;
+          connectDist = 120;
+          speedFactor = 0.3;
+        }
+
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 2 + 1,
+            dx: (Math.random() - 0.5) * speedFactor,
+            dy: (Math.random() - 0.5) * speedFactor
+          });
+        }
+      }
+
+      function updateParticles() {
+        for (let p of particles) {
+          p.x += p.dx;
+          p.y += p.dy;
+          if (p.x < 0 || p.x > w) p.dx *= -1;
+          if (p.y < 0 || p.y > h) p.dy *= -1;
+        }
+      }
+
+      function drawParticles() {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = "rgba(0,255,255,0.7)";
+        for (let p of particles) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        if (particleCount > 15) {
+          for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+              let a = particles[i], b = particles[j];
+              let dx = a.x - b.x, dy = a.y - b.y;
+              let dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < connectDist) {
+                ctx.strokeStyle = "rgba(0,255,255," + (1 - dist / connectDist) + ")";
+                ctx.lineWidth = 0.4;
+                ctx.beginPath();
+                ctx.moveTo(a.x, a.y);
+                ctx.lineTo(b.x, b.y);
+                ctx.stroke();
+              }
+            }
+          }
+        }
+      }
+
+      let isVisible = true;
+      document.addEventListener("visibilitychange", () => {
+        isVisible = !document.hidden;
+      });
+
+      function animate() {
+        if (isVisible) {
+          updateParticles();
+          drawParticles();
+        }
+        requestAnimationFrame(animate);
+      }
+
+      window.addEventListener("resize", resizeCanvas);
+      resizeCanvas();
+      animate();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,168 @@
+
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 0;
+    background: url("https://i0.wp.com/greengardenia.ae/wp-content/uploads/2025/03/Group-6.png?fit=1343%2C698&ssl=1") no-repeat center center/cover;
+  position: relative;
+}
+
+.left-section {
+  color: white;
+  padding-left: 60px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  z-index: 1;
+}
+
+.left-section h1 {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.left-section p {
+  font-size: 18px;
+}
+
+.form-container {
+  padding: 30px 25px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.8);
+  max-width: 400px;
+  margin: auto;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  z-index: 1;
+  height: auto;
+}
+
+.form-container label span {
+  color: red;
+}
+
+.form-container input,
+.form-container textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #000;
+  padding: 8px 5px;
+  font-size: 14px;
+  outline: none;
+  resize: none;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.form-container textarea {
+  height: 80px;
+}
+
+.form-container button {
+  background: #3f7d65;
+  color: #fff;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.form-container button:hover {
+  background: #356955;
+}
+
+.scroll-up {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #3f7d65;
+  border: none;
+  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.scroll-up::before {
+  content: "";
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 6px;
+  transform: rotate(-135deg);
+}
+
+.scroll-up:hover {
+  background: #356955;
+}
+
+/* Responsive styles */
+@media (max-width: 767.98px) {
+  .left-section {
+    padding-left: 20px;
+    text-align: center;
+    height: auto;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+
+  .left-section h1 {
+    font-size: 28px;
+  }
+
+  .left-section p {
+    font-size: 16px;
+  }
+
+  .form-container {
+    max-width: 100%;
+    border-radius: 15px;
+    padding: 20px 15px;
+    margin: 20px;
+    box-shadow: none;
+  }
+
+  .row.h-100 {
+    flex-direction: column;
+  }
+
+  .scroll-up {
+    bottom: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+  }
+
+  .scroll-up::before {
+    padding: 5px;
+    border-width: 0 2.5px 2.5px 0;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .left-section {
+    padding-left: 40px;
+  }
+
+  .left-section h1 {
+    font-size: 34px;
+  }
+
+  .left-section p {
+    font-size: 17px;
+  }
+
+  .form-container {
+    max-width: 90%;
+    padding: 25px 20px;
+  }
+}

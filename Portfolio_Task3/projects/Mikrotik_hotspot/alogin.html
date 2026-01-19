@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="refresh" content="2; url=$(link-redirect)">
+  <meta http-equiv="pragma" content="no-cache">
+  <meta http-equiv="expires" content="-1">
+  <title>Time Communication Zone - Redirect</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      background: #020412;
+      color: #fff;
+    }
+
+    canvas#network {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #040720, #000);
+      z-index: 0;
+    }
+
+    .main {
+      position: relative;
+      z-index: 5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wrap {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem 3rem;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      color: #00eaff;
+      text-shadow: 0 0 15px #00eaff;
+      margin-bottom: 1rem;
+    }
+
+    p.info {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    p.info a {
+      color: #00ffff;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    p.info a:hover {
+      color: #00bfff;
+      text-shadow: 0 0 10px #00ffff;
+    }
+
+    .brand-title {
+      text-align: center;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #00bfff;
+      letter-spacing: 0.5px;
+      margin-top: 1.5rem;
+      text-shadow: 0 0 10px #00bfff, 0 0 25px #00eaff;
+    }
+  </style>
+</head>
+
+<body onLoad="startClock()">
+  <canvas id="network"></canvas>
+
+  <div class="main">
+    <div class="wrap">
+      <h1>You are logged in</h1>
+      <p class="info">If nothing happens, click <a href="$(link-redirect)">here</a></p>
+      <div class="brand-title">Time Communication Zone</div>
+    </div>
+  </div>
+
+  <script>
+    function startClock() {
+      $(if popup == 'true')
+      open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=200');
+      $(endif)
+      location.href = unescape('$(link-redirect-esc)');
+    }
+
+    // Background animation
+    const canvas = document.getElementById("network");
+    const ctx = canvas.getContext("2d");
+    let w, h, particles = [];
+    const count = 70, connectDist = 120;
+
+    function resize() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 2 + 1,
+        dx: (Math.random() - 0.5) * 1.2,
+        dy: (Math.random() - 0.5) * 1.2
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, w, h);
+      ctx.fillStyle = "rgba(0,255,255,0.7)";
+      for (let p of particles) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      for (let i = 0; i < count; i++) {
+        for (let j = i + 1; j < count; j++) {
+          let a = particles[i], b = particles[j];
+          let dx = a.x - b.x, dy = a.y - b.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < connectDist) {
+            ctx.strokeStyle = "rgba(0,255,255," + (1 - dist / connectDist) + ")";
+            ctx.lineWidth = 0.4;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+      }
+      update();
+      requestAnimationFrame(draw);
+    }
+
+    function update() {
+      for (let p of particles) {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > w) p.dx *= -1;
+        if (p.y < 0 || p.y > h) p.dy *= -1;
+      }
+    }
+    draw();
+  </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> aboutus</title>
+
+ 
+  <!-- Font Awesome CDN for icons -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <!-- ✅ External CSS file -->
+  <link rel="stylesheet" href="css/style1.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 10%;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+
+    nav .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1d4d2d;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    nav .logo::after {
+      content: "❤";
+      font-size: 14px;
+      color: #e63946;
+      margin-left: 5px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      font-size: 16px;
+      color: #333;
+      padding: 8px 12px;
+      display: block;
+      position: relative;
+    }
+
+    /* Animated underline */
+    nav ul li a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #1d4d2d, #2a9d8f);
+      transition: width 0.3s ease;
+    }
+
+    nav ul li a:hover::after {
+      width: 100%;
+    }
+
+    /* Dropdown */
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      min-width: 200px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+    }
+
+    .dropdown li a {
+      padding: 12px 16px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    nav ul li:hover .dropdown {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1100;
+    }
+
+    .hamburger div {
+      width: 25px;
+      height: 3px;
+      background: #333;
+      margin: 4px 0;
+      transition: 0.3s;
+    }
+
+    /* Mobile menu overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100vh;
+      background: white;
+      box-shadow: -2px 0 8px rgba(0,0,0,0.2);
+      padding-top: 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: right 0.4s ease;
+      z-index: 1000;
+    }
+
+    .overlay.active {
+      right: 0;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+      }
+      .hamburger {
+        display: flex;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">FurEverCare</div>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      
+      <li>
+        <a href="services.html">Services ▾</a>
+        <ul class="dropdown">
+          <li><a href="bathing.html">Bathing</a></li>
+          <li><a href="feeding.html">Feeding</a></li>
+          <li><a href="vaccination.html">Vaccination</a></li>
+          <li><a href="grooming.html">Grooming</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="product.html">Products ▾</a>
+        <ul class="dropdown">
+          <li><a href="food.html">Food</a></li>
+          <li><a href="toys.html">Toys</a></li>
+          <li><a href="supplements.html">Supplements</a></li>
+          <li><a href="kits.html">Grooming Kits</a></li>
+        </ul>
+      </li>
+      <li><a href="About.html">About Us</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+  </nav>
+
+  <!-- Mobile Sidebar -->
+  <div class="overlay" id="mobileMenu">
+    <a href="index.html">Home</a>
+    <a href="About.html">About Us</a>
+    <a href="services.html">Services</a>
+    <a href="product.html">Products</a>
+    <a href="contact.html">Contact</a>
+  </div>
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="image-slider">
+      <!-- Slide 1 - from left -->
+      <img src="https://images.pexels.com/photos/7468980/pexels-photo-7468980.jpeg" class="slide from-left" alt="Dog with vet">
+      
+      <!-- Slide 2 - from top -->
+      <img src="https://images.pexels.com/photos/6816859/pexels-photo-6816859.jpeg" class="slide from-top" alt="Cat relaxing at home">
+
+      <!-- Slide 3 - from right -->
+      <img src="https://images.pexels.com/photos/6235240/pexels-photo-6235240.jpeg" class="slide from-right" alt="Vet examining dog">
+    </div>
+
+    <div class="hero-overlay">
+      <h1>About Pet Care</h1>
+      <p>Your premier choice for pet care solutions</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section class="about-section">
+    <div class="about-card center-in">
+      <h2>Who We Are?</h2>
+      <p>
+        At FurEverCare, we are passionate about enhancing the well-being of your furry friends. From professional grooming to compassionate veterinary care, our team is dedicated to providing top-notch services tailored to your pet’s needs.
+        <br><br>
+        With years of experience and a love for animals at our core, we aim to create a comfortable, safe, and joyful environment where pets thrive and their humans feel at ease. Your pets are family — and we treat them as such.
+      </p>
+    </div>
+  </section>
+
+
+<div class="container" id="message-section">
+  <img src="https://images.pexels.com/photos/5215024/pexels-photo-5215024.jpeg" alt="CEO Emma Collins" />
+  <div class="message-text">
+    <h2>A Message From The CEO</h2>
+    <p>
+      At FurEverCare , our mission is to provide loving, responsible care while promoting sustainability in every step we take. We believe that a healthy pet means a healthy planet, and our eco-conscious initiatives ensure we protect both. With dedication and compassion, we strive to improve the lives of pets and their families, creating a better world for future generations.
+    </p>
+    <em>Emma Collins</em>
+  </div>
+</div>
+
+<div class="journey-container" id="journey-section">
+  <h3>Our Journey</h3>
+  <p class="subtitle">Nurturing Pets and Planet, One Step at a Time</p>
+  <div class="stats">
+    <div class="stat-box">
+      <strong>+1,200</strong>
+      <small>Happy Pets</small>
+    </div>
+    <div class="stat-box">
+      <strong>+500</strong>
+      <small>Adoption Events</small>
+    </div>
+    <div class="stat-box">
+      <strong>+300</strong>
+      <small>Partner Clinics</small>
+    </div>
+    <div class="stat-box">
+      <strong>+50,000</strong>
+      <small>Sustainable Supplies Used</small>
+    </div>
+    <div class="stat-box">
+      <strong>+25,000</strong>
+      <small>Healthy Meals Served</small>
+    </div>
+    <div class="stat-box">
+      <strong>+10,000</strong>
+      <small>Volunteer Hours</small>
+    </div>
+  </div>
+</div>
+<footer>
+    <div class="footer-container">
+      <div class="footer-section about">
+        <h2 class="logo-text">FurEver<span>Care</span></h2>
+        <p>
+          At FurEverCare, we are dedicated to keeping your beloved pets happy, healthy, and safe.
+          From grooming and bathing to nutritious feeding, vaccinations, and medical check-ups, we
+          provide a complete range of professional pet care services. Our experienced team ensures
+          every pet receives love, attention, and the highest quality care in a comfortable and
+          friendly environment.
+        </p>
+      </div>
+
+      <div class="footer-section contact">
+        <h2>Contact Us</h2>
+        <ul>
+          <li><i class="fas fa-map-marker-alt"></i> Hyderabad</li>
+          <li><i class="fas fa-envelope"></i> FurEverCare@gmail.com</li>
+          <li><i class="fas fa-phone"></i> +92 335 2563767</li>
+        </ul>
+      </div>
+
+      <div class="footer-section social">
+        <h2>Follow Us</h2>
+        <div class="social-icons">
+          <i class="fab fa-facebook-f"></i>
+          <i class="fab fa-twitter"></i>
+          <i class="fab fa-instagram"></i>
+          <i class="fab fa-pinterest"></i>
+        </div>
+      </div>
+    </div>
+  </footer>
+<script>
+  function isInViewport(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top <= (window.innerHeight || document.documentElement.clientHeight) - 100 &&
+      rect.bottom >= 0
+    );
+  }
+
+  function checkAnimations() {
+    const messageSection = document.getElementById('message-section');
+    const journeySection = document.getElementById('journey-section');
+
+    if (isInViewport(messageSection)) {
+      messageSection.classList.add('visible-left');
+    }
+    if (isInViewport(journeySection)) {
+      journeySection.classList.add('visible-up');
+    }
+  }
+
+  window.addEventListener('scroll', checkAnimations);
+  window.addEventListener('load', checkAnimations);
+</script>
+  <script>
+    function toggleMenu() {
+      document.getElementById("mobileMenu").classList.toggle("active");
+    }
+  </script>
+
+</body>
+</html>
